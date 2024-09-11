@@ -1,0 +1,31 @@
+[gd_scene load_steps=8 format=3 uid="uid://jivl5hj1kyvc"]
+
+[ext_resource type="Script" path="res://Scenes/level.gd" id="1_1j81r"]
+[ext_resource type="Texture2D" uid="uid://uq3mfx2j3qb2" path="res://Assets/sprites/background-day.png" id="1_hkmou"]
+[ext_resource type="PackedScene" uid="uid://clpoahewl4ubo" path="res://Scenes/bird.tscn" id="1_wpt50"]
+[ext_resource type="PackedScene" uid="uid://cpynuinpph8ja" path="res://Scenes/obstacle_spawner.tscn" id="2_f0ofc"]
+[ext_resource type="PackedScene" uid="uid://0ctiebdsnf56" path="res://Scenes/ground.tscn" id="2_tdxmf"]
+[ext_resource type="PackedScene" uid="uid://b15cafbaae2fp" path="res://Scenes/hud.tscn" id="4_xre3j"]
+[ext_resource type="PackedScene" uid="uid://cv3ehwvwxgym1" path="res://Scenes/menu_layer.tscn" id="7_o5rcl"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_1j81r")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("1_hkmou")
+centered = false
+
+[node name="ObstacleSpawner" parent="." instance=ExtResource("2_f0ofc")]
+position = Vector2(442, 2.08165e-12)
+
+[node name="Ground" parent="." instance=ExtResource("2_tdxmf")]
+position = Vector2(-101, 409)
+
+[node name="HUD" parent="." instance=ExtResource("4_xre3j")]
+
+[node name="Bird" parent="." instance=ExtResource("1_wpt50")]
+position = Vector2(25, 204)
+
+[node name="MenuLayer" parent="." instance=ExtResource("7_o5rcl")]
+
+[connection signal="died" from="Bird" to="." method="_on_bird_died"]

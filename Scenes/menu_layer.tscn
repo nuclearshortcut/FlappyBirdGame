@@ -1,0 +1,90 @@
+[gd_scene load_steps=6 format=3 uid="uid://cv3ehwvwxgym1"]
+
+[ext_resource type="Texture2D" uid="uid://dy4vlrw7pu5j5" path="res://Assets/sprites/message.png" id="1_4co88"]
+[ext_resource type="Script" path="res://Scenes/menu_layer.gd" id="1_m0cue"]
+
+[sub_resource type="Animation" id="Animation_tv0u1"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StartMenu/StartMessage:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_x5udl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("StartMenu/StartMessage:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ulisa"]
+_data = {
+"RESET": SubResource("Animation_x5udl"),
+"fade_out": SubResource("Animation_tv0u1")
+}
+
+[node name="MenuLayer" type="CanvasLayer"]
+script = ExtResource("1_m0cue")
+
+[node name="StartMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StartMessage" type="TextureRect" parent="StartMenu"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 65.0
+offset_right = 234.0
+offset_bottom = 332.0
+texture = ExtResource("1_4co88")
+
+[node name="GameOverMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverMenu"]
+layout_mode = 0
+offset_left = 114.0
+offset_top = 152.0
+offset_right = 179.0
+offset_bottom = 249.0
+theme_override_constants/separation = 10
+
+[node name="HighScoreLabel" type="Label" parent="GameOverMenu/VBoxContainer"]
+layout_mode = 2
+text = "BEST: 0"
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="GameOverMenu/VBoxContainer"]
+layout_mode = 2
+text = "SCORE: 0"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="GameOverMenu/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ulisa")
+}

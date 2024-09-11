@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://clpoahewl4ubo"]
+
+[ext_resource type="Texture2D" uid="uid://7uj16c1xnc8d" path="res://Assets/sprites/bluebird-midflap.png" id="1_c6uvj"]
+[ext_resource type="Script" path="res://Scenes/bird.gd" id="1_d7isk"]
+[ext_resource type="Texture2D" uid="uid://b4l1sifbcpjeh" path="res://Assets/sprites/bluebird-downflap.png" id="2_pkc30"]
+[ext_resource type="Texture2D" uid="uid://bv0pvcg6lbtiu" path="res://Assets/sprites/bluebird-upflap.png" id="3_7buok"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0xrli"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_c6uvj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_7buok")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_pkc30")
+}],
+"loop": true,
+"name": &"Flap",
+"speed": 7.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_e2b1g"]
+radius = 11.0
+height = 32.0
+
+[sub_resource type="Animation" id="Animation_fqgck"]
+resource_name = "Idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BirdImage:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2.08165e-12, -2), Vector2(2.08165e-12, 2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pgcrp"]
+_data = {
+"Idle": SubResource("Animation_fqgck")
+}
+
+[node name="Bird" type="CharacterBody2D" groups=["Player"]]
+script = ExtResource("1_d7isk")
+
+[node name="BirdImage" type="AnimatedSprite2D" parent="."]
+position = Vector2(2.08165e-12, 2)
+sprite_frames = SubResource("SpriteFrames_0xrli")
+animation = &"Flap"
+frame_progress = 0.426185
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_e2b1g")
+
+[node name="FlapTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_pgcrp")
+}
+autoplay = "Idle"
+
+[connection signal="timeout" from="FlapTimer" to="." method="_on_flap_timer_timeout"]
